@@ -6,31 +6,39 @@ using System.Windows.Forms;
 using Npgsql;
 namespace radProject
 {
-    public class user
+    public class products
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public user(int Id, string Name)
+        public products(int Id, string Name)
         {   
             this.Id = Id;
             this.Name = Name;
         }
-        public user() { }
+        public products() { }
     }
     public class report
     {
-        public string clientName { get; set; }
         public string productName { get; set; }
-        public int salesAmount { get; set; }
-        public double productPrice { get; set; }
-        public double summ = 0;
-        public report(string clientName, string productName, int salesAmount, double productPrice) 
+        public int numOrders { get; set; }
+        public int numDeliveries { get; set; }
+        public report(string productName, int numOrders, int numDeliveries) 
         { 
-            this.clientName = clientName;
             this.productName = productName;
-            this.salesAmount = salesAmount;
-            this.productPrice = productPrice;
-            summ = salesAmount * productPrice;
+            this.numOrders = numOrders;
+            this.numDeliveries = numDeliveries;
+        }
+    }
+    public class preReport
+    {
+        public string productName { get; set; }
+        public int numOrders { get; set; }
+        public bool shipped { get; set; }
+        public preReport(string productName, int numOrders, bool shipped)
+        {
+            this.productName=productName;
+            this.shipped=shipped;
+            this.numOrders=numOrders;
         }
     }
     

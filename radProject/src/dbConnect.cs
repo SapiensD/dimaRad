@@ -18,7 +18,8 @@ namespace radProject
     public class PostgresConnect
     {
 
-        public static List<user> usersList = new List<user>();
+        public static List<products> productsList = new List<products>();
+        public static List<preReport> preReport = new List<preReport>();
         public static List<report> report = new List<report>();
 
         public static string Host = "localhost";
@@ -35,44 +36,79 @@ namespace radProject
             Port,
             Password);
 
-        public static List<user> dbGetListUser()
+        public static List<products> dbGetListProducts()
         {
             using (var conn = new NpgsqlConnection(connString))
             {
                 //Console.Out.WriteLine("Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand("SELECT * FROM clients", conn))
+                using (var command = new NpgsqlCommand("SELECT * FROM products", conn))
                 {
                     var reader = command.ExecuteReader();
-                    while (reader.Read()) { usersList.Add(new user(reader.GetInt32(0), reader.GetString(1))); }
+                    while (reader.Read()) { productsList.Add(new products(reader.GetInt32(0), reader.GetString(1))); }
                     reader.Close();
                 }
             }
-            return usersList;
+            return productsList;
         } 
-        public static List<report> dbGetReport(List<string> usersID)
+        public static List<report> dbGetReport(List<string> productsID, DateTime dateFrom, DateTime dateTo)
         {
             using (var conn = new NpgsqlConnection(connString))
             {
-                foreach (var user in usersID)
+                // debug
+                string usersString = "'" + productsID[0] + "'";
+                for (int i = 1; i < productsID.Count; i++)
+                {
+                    usersString += ", '" + productsID[i] + "'";
+                }
+                MessageBox.Show(usersString);
+                foreach (var product in productsID)
                 {
                     conn.Open();
-                    using (var command = new NpgsqlCommand("SELECT clients.name, products.name, sales.amount, products.price " +
-                                                       "FROM clients, products, sales " +
-                                                       "WHERE clients.id = " + user +
-                                                       "AND sales.id_client = " + user +
-                                                       "AND shipped = true " +
-                                                       "AND products.id = id_product ", conn))
+                    using (var command = new NpgsqlCommand("SELECT products.name, sales.amount, sales.shipped " +
+                                                       "FROM products, sales " +
+                                                       "WHERE products.id = " + product +
+                                                       "AND sales.id_product = " + product +
+                                                       "AND DATE(sales.date) > '" + dateFrom.Year + "-" + dateFrom.Month + "-" + dateFrom.Day + "'" +
+                                                       "AND DATE(sales.date) < '" + dateTo.Year + "-" + dateTo.Month + "-" + dateTo.Day + "'", conn))
                     {
                         var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            report.Add(new report(reader.GetString(0), reader.GetString(1), reader.GetInt32(2), reader.GetDouble(3) * reader.GetInt32(2)));
+                            preReport.Add(new preReport(reader.GetString(0), reader.GetInt32(1), reader.GetBoolean(2)));
                         }
                         reader.Close();
                     }
                     conn.Close();
+                }
+                for(int i=0; i<preReport.Count; i++)
+                {
+                    int numDeliveries = 0;
+                    int numOrders = 0;
+
+                    numOrders += preReport[i].numOrders;
+                    if (preReport[i].shipped == true)
+                        numDeliveries += preReport[i].numOrders;
+
+                    for (int j=0;j<preReport.Count; j++)
+                    {
+                        if (preReport[i].productName == preReport[j].productName && i != j)
+                        {
+                            numOrders += preReport[j].numOrders;
+                            if(preReport[j].shipped == true)
+                                numDeliveries += preReport[j].numOrders;
+                        }
+                    }
+
+                    // не записываем повторыне отчёты
+                    bool flag = true;
+                    for (int j = 0; j < report.Count; j++)
+                        if (preReport[i].productName == report[j].productName)
+                            flag = false;
+                    // если не нашли совпадений - записываем
+                    if (flag)
+                        report.Add(new report(preReport[i].productName, numOrders, numDeliveries));
                 }
             }
             return report;

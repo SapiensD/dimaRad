@@ -38,16 +38,14 @@ namespace radProject
                                                      false,
                                                      false);
                 Worksheet ws = wb.Sheets[1];
-                ws.Cells[1][1] = "Имя";
-                ws.Cells[2][1] = "Продукт";
-                ws.Cells[3][1] = "Количество";
-                ws.Cells[4][1] = "Общая стоимость";
+                ws.Cells[1][1] = "Товар";
+                ws.Cells[2][1] = "Заказов";
+                ws.Cells[3][1] = "Доставленно";
                 for (int i = 0; i < report.Count; i++)
                 {
-                    ws.Cells[1][i + 2] = report[i].clientName;
-                    ws.Cells[2][i + 2] = report[i].productName;
-                    ws.Cells[3][i + 2] = report[i].salesAmount;
-                    ws.Cells[4][i + 2] = report[i].productPrice;
+                    ws.Cells[1][i + 2] = report[i].productName;
+                    ws.Cells[2][i + 2] = report[i].numOrders;
+                    ws.Cells[3][i + 2] = report[i].numDeliveries;
                 }
 
                 wb.Save();
