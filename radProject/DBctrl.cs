@@ -35,38 +35,50 @@ namespace radProject
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView1[0, lastClick1].Value = "";
-            dataGridView1[0, e.RowIndex].Value = "*";
-            lastClick1 = e.RowIndex;
-            id1 = (int)dataGridView1[1, e.RowIndex].Value;
+            if(e.RowIndex >=0)
+            {
+                dataGridView1[0, lastClick1].Value = "";
+                dataGridView1[0, e.RowIndex].Value = "*";
+                lastClick1 = e.RowIndex;
+                id1 = (int)dataGridView1[1, e.RowIndex].Value;
 
-            clientName.Text = dataGridView1[2, e.RowIndex].Value.ToString();
+                clientName.Text = dataGridView1[2, e.RowIndex].Value.ToString();
+            }
+            
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView2[0, lastClick2].Value = "";
-            dataGridView2[0, e.RowIndex].Value = "*";
-            lastClick2 = e.RowIndex;
-            id2 = (int)dataGridView2[1, e.RowIndex].Value;
+            if (e.RowIndex >= 0)
+            {
+                dataGridView2[0, lastClick2].Value = "";
+                dataGridView2[0, e.RowIndex].Value = "*";
+                lastClick2 = e.RowIndex;
+                id2 = (int)dataGridView2[1, e.RowIndex].Value;
 
-            productName.Text = dataGridView2[2, e.RowIndex].Value.ToString();
-            productPrice.Text = dataGridView2[3, e.RowIndex].Value.ToString();
+                productName.Text = dataGridView2[2, e.RowIndex].Value.ToString();
+                productPrice.Text = dataGridView2[3, e.RowIndex].Value.ToString();
+            }
+            
         }
 
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView3[0, lastClick3].Value = "";
-            dataGridView3[0, e.RowIndex].Value = "*";
-            lastClick3 = e.RowIndex;
+            if (e.RowIndex >= 0)
+            {
+                dataGridView3[0, lastClick3].Value = "";
+                dataGridView3[0, e.RowIndex].Value = "*";
+                lastClick3 = e.RowIndex;
 
-            id3 = (int)dataGridView3[1, e.RowIndex].Value;
+                id3 = (int)dataGridView3[1, e.RowIndex].Value;
 
-            salesClient.Text = dataGridView3[2, e.RowIndex].Value.ToString();
-            salesProduct.Text = dataGridView3[3, e.RowIndex].Value.ToString();
-            salesAmount.Text = dataGridView3[4, e.RowIndex].Value.ToString();
-            salesShipped.Checked = (bool)dataGridView3[5, e.RowIndex].Value;
-            salesDate.Value = (DateTime)dataGridView3[6, e.RowIndex].Value;
+                salesClient.Text = dataGridView3[2, e.RowIndex].Value.ToString();
+                salesProduct.Text = dataGridView3[3, e.RowIndex].Value.ToString();
+                salesAmount.Text = dataGridView3[4, e.RowIndex].Value.ToString();
+                salesShipped.Checked = (bool)dataGridView3[5, e.RowIndex].Value;
+                salesDate.Value = (DateTime)dataGridView3[6, e.RowIndex].Value;
+            }
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

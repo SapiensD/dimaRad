@@ -41,39 +41,48 @@ namespace radProject
         {
             // достаём номер строки, на которую нажали
             // без повторений
-            bool flag = true;
-            for(int i=0;i<productsID.Count;i++)
-                if(dataGridView1[1, e.RowIndex].Value.ToString() == productsID[i])
-                {
-                    flag = false;
-                    productsID.Remove(dataGridView1[1, e.RowIndex].Value.ToString());
-                }
-                    
-            if(flag)
-                productsID.Add(dataGridView1[1, e.RowIndex].Value.ToString());
+            
+            if(e.RowIndex >=0)
+            {
+                bool flag = true;
+                for (int i = 0; i < productsID.Count; i++)
+                    if (dataGridView1[1, e.RowIndex].Value.ToString() == productsID[i])
+                    {
+                        flag = false;
+                        productsID.Remove(dataGridView1[1, e.RowIndex].Value.ToString());
+                    }
 
-            if(dataGridView1[0, e.RowIndex].Value == "+")
-                dataGridView1[0, e.RowIndex].Value = "";
-            else
-                dataGridView1[0, e.RowIndex].Value = "+";
+                if (flag)
+                    productsID.Add(dataGridView1[1, e.RowIndex].Value.ToString());
+
+                if (dataGridView1[0, e.RowIndex].Value == "+")
+                    dataGridView1[0, e.RowIndex].Value = "";
+                else
+                    dataGridView1[0, e.RowIndex].Value = "+";
+            }
+            
         }
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            bool flag = true;
-            for (int i = 0; i < clientsID.Count; i++)
-                if (dataGridView2[1, e.RowIndex].Value.ToString() == clientsID[i])
-                {
-                    flag = false;
-                    clientsID.Remove(dataGridView2[1, e.RowIndex].Value.ToString());
-                }
+            if(e.RowIndex >=0)
+            {
+                bool flag = true;
+                for (int i = 0; i < clientsID.Count; i++)
+                    if (dataGridView2[1, e.RowIndex].Value.ToString() == clientsID[i])
+                    {
+                        flag = false;
+                        clientsID.Remove(dataGridView2[1, e.RowIndex].Value.ToString());
+                    }
 
-            if (flag)
-                clientsID.Add(dataGridView2[1, e.RowIndex].Value.ToString());
+                if (flag)
+                    clientsID.Add(dataGridView2[1, e.RowIndex].Value.ToString());
 
-            if (dataGridView2[0, e.RowIndex].Value == "+")
-                dataGridView2[0, e.RowIndex].Value = "";
-            else
-                dataGridView2[0, e.RowIndex].Value = "+";
+                if (dataGridView2[0, e.RowIndex].Value == "+")
+                    dataGridView2[0, e.RowIndex].Value = "";
+                else
+                    dataGridView2[0, e.RowIndex].Value = "+";
+            }
+            
         }
 
         private void label1_Click(object sender, DataGridViewCellEventArgs e) { }
